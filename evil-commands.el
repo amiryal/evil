@@ -326,7 +326,7 @@ If point is at the end of the buffer and cannot be moved signal
 'end-of-buffer is raised.
 "
   :type exclusive
-  (let ((thing (if bigword 'evil-WORD 'evil-word))
+  (let ((thing (if (eq bigword 'evil-symbol) 'evil-symbol (if bigword 'evil-WORD 'evil-word)))
         (orig (point))
         (count (or count 1)))
     (evil-signal-at-bob-or-eob count)
@@ -412,6 +412,26 @@ If BIGWORD is non-nil, move by WORDS."
   "Move the cursor to the end of the COUNT-th previous WORD."
   :type inclusive
   (evil-backward-word-end count t))
+
+(evil-define-motion evil-forward-symbol-begin (count)
+  "Move the cursor to the beginning of the COUNT-th next symbol."
+  :type exclusive
+  (evil-forward-word-begin count 'evil-symbol))
+
+(evil-define-motion evil-forward-symbol-end (count)
+  "Move the cursor to the end of the COUNT-th next symbol."
+  :type inclusive
+  (evil-forward-word-end count 'evil-symbol))
+
+(evil-define-motion evil-backward-symbol-begin (count)
+  "Move the cursor to the beginning of the COUNT-th previous symbol."
+  :type exclusive
+  (evil-backward-word-begin count 'evil-symbol))
+
+(evil-define-motion evil-backward-symbol-end (count)
+  "Move the cursor to the end of the COUNT-th previous symbol."
+  :type inclusive
+  (evil-backward-word-end count 'evil-symbol))
 
 ;; section movement
 (evil-define-motion evil-forward-section-begin (count)
